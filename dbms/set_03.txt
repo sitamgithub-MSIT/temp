@@ -1,0 +1,62 @@
+---------------------------------------Table team_details-----------------------------------------------------------
+
+CREATE TABLE team_detail( 
+    team_id NUMBER(3) PRIMARY KEY, 
+    team_name VARCHAR2(15),
+    team_captain VARCHAR2(35),
+    home_country VARCHAR2(15)
+);
+
+INSERT INTO team_detail (team_id, team_name, team_captain, home_country) VALUES (1, 'Warriors', 'John Smith', 'USA');
+INSERT INTO team_detail (team_id, team_name, team_captain, home_country) VALUES (2, 'Tigers', 'Ravi Sharma', 'India');
+INSERT INTO team_detail (team_id, team_name, team_captain, home_country) VALUES (3, 'Lions', 'Paul Johnson', 'UK');
+INSERT INTO team_detail (team_id, team_name, team_captain, home_country) VALUES (4, 'Eagles', 'Arjun Kumar', 'India');
+INSERT INTO team_detail (team_id, team_name, team_captain, home_country) VALUES (5, 'Sharks', 'Carlos Lopez', 'Brazil');
+
+--------------------------------------Table player_details--------------------------------------------------------------
+
+CREATE TABLE product (
+    player_id CHAR(4) PRIMARY KEY,
+    player_name VARCHAR2(25) NOT NULL,
+    player_dob DATE,
+    player_dod DATE,
+    player_grade CHAR(1) CHECK (player_grade IN ('A', 'B', 'C', 'D')),
+    player_run NUMBER(5),
+    team_no NUMBER(3) REFERENCES team_detail(team_id)
+);
+
+INSERT INTO player_detail (player_id, player_name, player_dob, player_dod, player_grade, player_run, team_no) VALUES
+('st01', 'Sachin Tendulkar', TO_DATE('1973-04-24', 'YYYY-MM-DD'), TO_DATE('1989-12-18', 'YYYY-MM-DD'), 'A', 15921, 1);
+
+INSERT INTO player_detail (player_id, player_name, player_dob, player_dod, player_grade, player_run, team_no) VALUES
+('vk08', 'Virat Kohli', TO_DATE('1988-11-05', 'YYYY-MM-DD'), TO_DATE('2008-08-18', 'YYYY-MM-DD'), 'A', 12040, 2);
+
+INSERT INTO player_detail (player_id, player_name, player_dob, player_dod, player_grade, player_run, team_no) VALUES
+('rd35', 'Rahul Dravid', TO_DATE('1973-01-11', 'YYYY-MM-DD'), TO_DATE('1996-06-20', 'YYYY-MM-DD'), 'A', 13288, 3);
+
+INSERT INTO player_detail (player_id, player_name, player_dob, player_dod, player_grade, player_run, team_no) VALUES
+('sg45', 'Sourav Ganguly', TO_DATE('1972-07-08', 'YYYY-MM-DD'), TO_DATE('1996-06-20', 'YYYY-MM-DD'), 'B', 11363, 4);
+
+INSERT INTO player_detail (player_id, player_name, player_dob, player_dod, player_grade, player_run, team_no) VALUES
+('msd7', 'MS Dhoni', TO_DATE('1981-07-07', 'YYYY-MM-DD'), TO_DATE('2004-12-23', 'YYYY-MM-DD'), 'A', 10500, 5);
+
+
+---------------------------------------------Query 01-----------------------------------------------------------------
+
+SELECT pd.player_id, pd.player_name, pd.player_dob, pd.player_dod, pd.player_grade, pd.player_run, pd.team_no
+FROM player_detail pd
+JOIN team_detail td ON pd.team_no = td.team_id
+WHERE td.home_country = 'India';
+
+---------------------------------------------Query 02-----------------------------------------------------------------
+
+SELECT player_name
+FROM player_detail
+WHERE player_run > 8000;
+
+--------------------------------------------Query 03------------------------------------------------------------------
+
+SELECT COUNT(*) AS total_players
+FROM player_detail
+WHERE player_run > 7000;
+

@@ -1,0 +1,67 @@
+-- Creating the Flight_info table
+CREATE TABLE Flight_info (
+    Flight_id VARCHAR2(10) PRIMARY KEY,
+    Company_name VARCHAR2(25) NOT NULL,
+    Dest_from VARCHAR2(15),
+    Dest_to VARCHAR2(15),
+    Class CHAR(1) CHECK (Class IN ('B', 'E', 'G')),
+    Fare NUMBER(10, 2)
+);
+
+-- Creating the Passenger_info table
+CREATE TABLE Passenger_info (
+    Pass_id VARCHAR2(25) PRIMARY KEY,
+    Pass_name VARCHAR2(25) NOT NULL,
+    Pass_city VARCHAR2(25),
+    Pass_DOB DATE,
+    Flight_id VARCHAR2(10),
+    FOREIGN KEY (Flight_id) REFERENCES Flight_info(Flight_id)
+);
+
+-- Inserting sample data into the Flight_info table with Indian context
+INSERT INTO Flight_info (Flight_id, Company_name, Dest_from, Dest_to, Class, Fare) VALUES
+('FL101', 'Air India', 'Mumbai', 'Delhi', 'B', 3000.00);
+
+INSERT INTO Flight_info (Flight_id, Company_name, Dest_from, Dest_to, Class, Fare) VALUES
+('FL102', 'IndiGo', 'Chennai', 'Bangalore', 'E', 2000.50);
+
+INSERT INTO Flight_info (Flight_id, Company_name, Dest_from, Dest_to, Class, Fare) VALUES
+('FL103', 'SpiceJet', 'Kolkata', 'Hyderabad', 'G', 4500.00);
+
+INSERT INTO Flight_info (Flight_id, Company_name, Dest_from, Dest_to, Class, Fare) VALUES
+('FL104', 'Vistara', 'Pune', 'Ahmedabad', 'B', 3500.75);
+
+-- Inserting sample data into the Passenger_info table with Indian context
+INSERT INTO Passenger_info (Pass_id, Pass_name, Pass_city, Pass_DOB, Flight_id) VALUES
+('P001', 'Rajesh Kumar', 'Mumbai', TO_DATE('1980-04-21', 'YYYY-MM-DD'), 'FL101');
+
+
+INSERT INTO Passenger_info (Pass_id, Pass_name, Pass_city, Pass_DOB, Flight_id) VALUES
+('P002', 'Anita Sharma', 'Chennai', TO_DATE('1992-11-13', 'YYYY-MM-DD'), 'FL102');
+
+INSERT INTO Passenger_info (Pass_id, Pass_name, Pass_city, Pass_DOB, Flight_id) VALUES
+('P003', 'Vikram Singh', 'Kolkata', TO_DATE('1985-07-19', 'YYYY-MM-DD'), 'FL103');
+
+INSERT INTO Passenger_info (Pass_id, Pass_name, Pass_city, Pass_DOB, Flight_id) VALUES
+('P004', 'Priya Patel', 'Pune', TO_DATE('1990-02-25', 'YYYY-MM-DD'), 'FL104');
+
+INSERT INTO Passenger_info (Pass_id, Pass_name, Pass_city, Pass_DOB, Flight_id) VALUES
+('P005', 'Rahul Kumar', 'Mumbai', TO_DATE('1980-05-10', 'YYYY-MM-DD'), 'FL101');
+
+COMMIT;
+
+-- Final select to view all data in both tables
+SELECT * FROM Flight_info;
+SELECT * FROM Passenger_info;
+
+SELECT *
+FROM Passenger_info
+WHERE Flight_id = 'FL101';
+
+SELECT *
+FROM Passenger_info
+WHERE Pass_city = 'Kolkata';
+
+SELECT COUNT(*)
+FROM Passenger_info
+WHERE Flight_id = 'FL102';

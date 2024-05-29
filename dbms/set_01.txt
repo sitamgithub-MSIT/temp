@@ -1,0 +1,61 @@
+--------------------------------------------Table Dept------------------------------------------
+
+CREATE TABLE dept( 
+    deptid NUMBER(1) PRIMARY KEY, 
+    deptname VARCHAR(30)
+);
+
+INSERT INTO dept (deptid, deptname) VALUES (1, 'CSE');
+INSERT INTO dept (deptid, deptname) VALUES (2, 'ECE');
+INSERT INTO dept (deptid, deptname) VALUES (3, 'Civil');
+INSERT INTO dept (deptid, deptname) VALUES (4, 'IT');
+INSERT INTO dept (deptid, deptname) VALUES (5, 'Mechanical');
+
+--------------------------------------------Table stud_memeber------------------------------------------
+
+CREATE TABLE stud_member( 
+    rollno NUMBER(3) PRIMARY KEY, 
+    fname VARCHAR(10), 
+    mname VARCHAR(10),
+    lname VARCHAR(10),
+    dob date,
+    semester NUMBER(1),
+    contactNo NUMBER(10),
+    gender CHAR(1),
+    deptid NUMBER(1) References dept(deptid) 
+);
+
+
+INSERT INTO stud_member (rollno, fname, mname, lname, dob, semester, contactNo, gender, deptid) 
+VALUES (1, 'Vishu', 'V', 'Vaishnav', TO_DATE('2002-01-15', 'YYYY-MM-DD'), 2, 1234567890, 'M', 1);
+
+INSERT INTO stud_member (rollno, fname, mname, lname, dob, semester, contactNo, gender, deptid) 
+VALUES (2, 'Kaif', 'K', 'Alam', TO_DATE('2001-02-20', 'YYYY-MM-DD'), 3, 2345678901, 'M', 2);
+
+INSERT INTO stud_member (rollno, fname, mname, lname, dob, semester, contactNo, gender, deptid) 
+VALUES (3, 'Neeraj', 'Kumar', 'Singh', TO_DATE('2003-03-25', 'YYYY-MM-DD'), 4, 3456789012, 'M', 3);
+
+INSERT INTO stud_member (rollno, fname, mname, lname, dob, semester, contactNo, gender, deptid) 
+VALUES (4, 'Santosh', 'Kumar', 'Roy', TO_DATE('2001-04-30', 'YYYY-MM-DD'), 1, 4567890123, 'M', 4);
+
+INSERT INTO stud_member (rollno, fname, mname, lname, dob, semester, contactNo, gender, deptid) 
+VALUES (5, 'Rohit', 'Kumar', 'Singh', TO_DATE('2004-05-05', 'YYYY-MM-DD'), 2, 5678901234, 'M', 5);
+
+
+----------------------------------------Query 01---------------------------------------------------------
+
+SELECT fname || ' ' || mname || ' ' || lname AS full_name
+FROM stud_member
+WHERE deptid = (SELECT deptid FROM dept WHERE deptname = 'CSE');
+
+----------------------------------------Query 02---------------------------------------------------------
+
+SELECT fname || ' ' || mname || ' ' || lname AS full_name
+FROM stud_member
+WHERE (SYSDATE - dob) / 365 > 17;
+
+----------------------------------------Query 03---------------------------------------------------------
+
+SELECT COUNT(*) AS total_students
+FROM stud_member
+WHERE deptid = (SELECT deptid FROM dept WHERE deptname = 'ECE');

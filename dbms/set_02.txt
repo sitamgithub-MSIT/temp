@@ -1,0 +1,63 @@
+--------------------------------------------------Table Supplier------------------------------------------
+
+CREATE TABLE supplier( 
+    sup_id NUMBER(3) PRIMARY KEY, 
+    supname VARCHAR(30),
+    supcity VARCHAR(30)
+);
+
+
+------------------Data Insertion---------------------
+
+INSERT INTO supplier (sup_id, supname, supcity) VALUES (1, 'ABC Supplies', 'Mumbai');
+INSERT INTO supplier (sup_id, supname, supcity) VALUES (2, 'Delhi Wholesalers', 'Delhi');
+INSERT INTO supplier (sup_id, supname, supcity) VALUES (3, 'Kolkata Traders', 'Kolkata');
+INSERT INTO supplier (sup_id, supname, supcity) VALUES (4, 'XYZ Distributors', 'Chennai');
+INSERT INTO supplier (sup_id, supname, supcity) VALUES (5, 'Delhi Enterprises', 'Delhi');
+INSERT INTO supplier (sup_id, supname, supcity) VALUES (6, 'Kolkata Importers', 'Kolkata');
+INSERT INTO supplier (sup_id, supname, supcity) VALUES (7, 'Bangalore Supplies', 'Bangalore');
+
+--------------------------------------------------Table Product------------------------------------------
+
+CREATE TABLE product( 
+    prod_id NUMBER(3) PRIMARY KEY, 
+    prodname VARCHAR(30), 
+    prodprice NUMBER(7,2),
+    mfgdate date,
+    bestbefore NUMBER(1),
+    supplierid NUMBER(2) References supplier(sup_id) 
+);
+
+
+--------------Data Insetion----------
+
+INSERT INTO product (prod_id, prodname, prodprice, mfgdate, bestbefore, supplierid) VALUES (1, 'Mouse', 100.00, DATE '2023-01-01', 2, 1);
+INSERT INTO product (prod_id, prodname, prodprice, mfgdate, bestbefore, supplierid) VALUES (2, 'Keyboard', 150.50, DATE '2023-02-15', 1, 2);
+INSERT INTO product (prod_id, prodname, prodprice, mfgdate, bestbefore, supplierid) VALUES (3, 'Monitor', 200.75, DATE '2023-03-20', 3, 3);
+INSERT INTO product (prod_id, prodname, prodprice, mfgdate, bestbefore, supplierid) VALUES (4, 'Printer', 250.00, DATE '2023-04-10', 2, 4);
+INSERT INTO product (prod_id, prodname, prodprice, mfgdate, bestbefore, supplierid) VALUES (5, 'Laptop', 300.25, DATE '2023-05-05', 3, 5);
+INSERT INTO product (prod_id, prodname, prodprice, mfgdate, bestbefore, supplierid) VALUES (6, 'Tablet', 350.50, DATE '2023-06-15', 2, 6);
+INSERT INTO product (prod_id, prodname, prodprice, mfgdate, bestbefore, supplierid) VALUES (7, 'Headphones', 400.75, DATE '2023-07-20', 1, 7);
+
+
+
+
+
+-------------------------------------------------Answer 01--------------------------------------------------
+
+SELECT supname FROM supplier 
+WHERE supcity LIKE '%Kolkata%';
+
+-------------------------------------------------Answer 02--------------------------------------------------
+
+SELECT p.prod_id, p.prodname, p.prodprice, p.mfgdate, p.bestbefore, p.supplierid
+FROM product p
+JOIN supplier s ON p.supplierid = s.sup_id
+WHERE s.supcity LIKE '%Delhi%';
+
+------------------------------------------------Answer 03---------------------------------------------------
+
+SELECT prod_id, prodname
+FROM product
+WHERE ADD_MONTHS(mfgdate, bestbefore * 12) < SYSDATE;
+
